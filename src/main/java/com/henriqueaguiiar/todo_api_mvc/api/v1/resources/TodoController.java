@@ -3,7 +3,10 @@ package com.henriqueaguiiar.todo_api_mvc.api.v1.resources;
 
 import com.henriqueaguiiar.todo_api_mvc.api.v1.domain.entity.TodoEntity;
 import com.henriqueaguiiar.todo_api_mvc.api.v1.domain.services.TodoService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/todos")
@@ -18,7 +21,13 @@ public class TodoController {
 
     @PostMapping
     public TodoEntity salvar(@RequestBody TodoEntity todo){
-       return this.todoService.save(todo);
+        try{
+            return this.todoService.save(todo);
+        }catch (IllegalArgumentException e){
+            var mensagemErro = e.getMessage();
+            throw  new ResponseStatusException(HttpStatus.BAD_REQUEST, mensagemErro);
+        }
+
     }
 
     @PutMapping("{id}")
