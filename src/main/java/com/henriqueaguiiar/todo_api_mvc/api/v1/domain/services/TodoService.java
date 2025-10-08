@@ -19,4 +19,14 @@ public class TodoService {
         todoRepository.save(novoTodo);
         return novoTodo;
     }
+
+    public void atualizarStatus(TodoEntity todo){
+        todoRepository.save(todo);
+    }
+
+    public TodoEntity getbyId(Integer id){
+        return todoRepository.findById(id).orElse(null);
+    }
+
+
 }
